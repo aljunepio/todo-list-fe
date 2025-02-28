@@ -1,13 +1,32 @@
 import { useState } from "react";
+import "./App.scss";
 
 function App() {
-  const [todos, setTodos] = useState(["sample1", "sample2"]);
-  const [todo, setTodo] = useState("");
+  const [todos, setTodos] = useState<string[]>([]);
+  const [todo, setTodo] = useState<string>("");
+  const [isEdit, setIsEdit] = useState<boolean>(false);
+  const [selectedIndex, setSelectedIndex] = useState<number>(0);
+
+  const handleEdit = (index: number) => {
+    setTodo(todos[index]);
+    setIsEdit(true);
+    setSelectedIndex(index);
+  };
+
+  const handleAddEdit = () => {
+    if (isEdit) {
+      todos[selectedIndex] = todo;
+    } else {
+      setTodos([...todos, todo]);
+    }
+    setTodo("");
+    setIsEdit(false);
+  };
 
   return (
-    <div>
-      <div>
-        <span>todo</span>
+    <div className="container">
+      <div className="title">Todo List</div>
+      <div className="input-group">
         <input
           type="text"
           value={todo}
@@ -15,34 +34,26 @@ function App() {
             setTodo(e.target.value);
           }}
         />
-        <button
-          onClick={() => {
-            setTodo("");
-            setTodos([...todos, todo]);
-          }}
-        >
-          add
-        </button>
-        <button onClick={() => setTodos([])}>clear all</button>
+        <button onClick={handleAddEdit}>{isEdit ? "Edit" : "Add"}</button>
+        <button onClick={() => setTodos([])}>Delete all</button>
       </div>
-      <div>
-        <div style={{ display: "flex", flexDirection: "column" }}>
-          {todos.map((item, index) => {
-            return (
-              <div key={index}>
-                {item}
-                <button
-                  onClick={() => {
-                    setTodos(todos.filter((_, i) => i !== index));
-                  }}
-                >
-                  X
-                </button>
-              </div>
-            );
-          })}
-        </div>
-      </div>
+      <ul className="todo-list">
+        {todos.map((item, index) => (
+          <li key={index}>
+            {item}
+            <div>
+              <button
+                onClick={() => {
+                  setTodos(todos.filter((_, i) => i !== index));
+                }}
+              >
+                Delete
+              </button>
+              <button onClick={() => handleEdit(index)}>Edit</button>
+            </div>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
