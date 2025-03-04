@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.scss";
 
 function App() {
-  const [todos, setTodos] = useState<string[]>([]);
+  const [todos, setTodos] = useState<string[]>(checkLocal());
   const [todo, setTodo] = useState<string>("");
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
@@ -13,15 +13,27 @@ function App() {
     setSelectedIndex(index);
   };
 
+  function checkLocal() {
+    const savedTodos = localStorage.getItem("todos");
+    return savedTodos ? JSON.parse(savedTodos) : [];
+  }
+
   const handleAddEdit = () => {
     if (isEdit) {
-      todos[selectedIndex] = todo;
+      const updatedTodos = todos.map((item, index) =>
+        index === selectedIndex ? todo : item
+      );
+      setTodos(updatedTodos);
     } else {
       setTodos([...todos, todo]);
     }
     setTodo("");
     setIsEdit(false);
   };
+
+  useEffect(() => {
+    localStorage.setItem("todos", JSON.stringify(todos));
+  }, [todos]);
 
   return (
     <div className="container">
