@@ -15,6 +15,7 @@ body {
   padding: 20px;
   border-radius: 8px;
   width: 400px;
+
   .title {
     font-size: 24px;
     margin-bottom: 10px;
@@ -23,6 +24,7 @@ body {
   .input-group {
     display: flex;
     margin-bottom: 20px;
+
     input {
       flex: 1;
       padding: 10px;
@@ -30,6 +32,7 @@ body {
       border-radius: 4px 0 0 4px;
       outline: none;
     }
+
     button {
       padding: 10px 20px;
       border: none;
@@ -37,14 +40,18 @@ body {
       color: #ffffff;
       border-radius: 0 4px 4px 0;
       cursor: pointer;
+      margin-left: 5px;
     }
+
     button:hover {
       background: #0056b3;
     }
   }
+
   .todo-list {
     list-style: none;
     padding: 0;
+
     li {
       padding: 10px;
       display: flex;
@@ -52,9 +59,11 @@ body {
       align-items: center;
       border-bottom: 1px solid #ddd;
     }
+
     li:last-child {
       border-bottom: none;
     }
+
     button {
       border: none;
       background: #dc3545;
@@ -64,8 +73,25 @@ body {
       cursor: pointer;
       margin-left: 5px;
     }
+
     button:hover {
       background: #c82333;
     }
+  }
+
+  .delete-all-button {
+    padding: 10px 20px;
+    border: none;
+    background: #dc3545;
+    color: #ffffff;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 20px;
+    display: block;
+    width: 100%;
+  }
+
+  .delete-all-button:hover {
+    background: #c82333;
   }
 }
