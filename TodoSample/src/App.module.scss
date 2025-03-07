@@ -1,0 +1,39 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.container {
+  background: #ffffff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  border-radius: 8px;
+  width: 400px;
+
+  .title {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+
+  .deleteAll {
+    padding: 10px 20px;
+    border: none;
+    background: #dc3545;
+    color: #ffffff;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 20px;
+    display: block;
+    width: 100%;
+  }
+
+  .deleteAll:hover {
+    background: #c82333;
+  }
+}
