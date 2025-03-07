@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
-import './App.scss';
-import useLocalStorage from './customHooks/useLocalStorage';
-import { Todo } from './interfaces/types';
-import Input from './components/Input';
-import TodoList from './components/TodoList';
+import React, { useState } from "react";
+import styles from "./App.module.scss";
+import useLocalStorage from "./customHooks/useLocalStorage";
+import { Todo } from "./interfaces/types";
+import Input from "./components/input/Input";
+import TodoList from "./components/todoList/TodoList";
 
 function App() {
-  const [todos, setTodos] = useLocalStorage('todos', []);
-  const [todo, setTodo] = useState<string>('');
+  const [todos, setTodos] = useLocalStorage("todos", []);
+  const [todo, setTodo] = useState<string>("");
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
 
@@ -27,7 +27,7 @@ function App() {
       const newTodo: Todo = { id: Date.now(), text: todo };
       setTodos([...todos, newTodo]);
     }
-    setTodo('');
+    setTodo("");
     setIsEdit(false);
   };
 
@@ -36,11 +36,22 @@ function App() {
   };
 
   return (
-    <div className="container">
-      <div className="title">Todo List</div>
-      <Input todo={todo} setTodo={setTodo} handleAddEdit={handleAddEdit} isEdit={isEdit} />
-      <TodoList todos={todos} handleEdit={handleEdit} handleDelete={handleDelete} />
-      <button className="delete-all-button" onClick={() => setTodos([])}>Delete all</button>
+    <div className={styles.container}>
+      <div className={styles.title}>Todo List</div>
+      <Input
+        todo={todo}
+        setTodo={setTodo}
+        handleAddEdit={handleAddEdit}
+        isEdit={isEdit}
+      />
+      <TodoList
+        todos={todos}
+        handleEdit={handleEdit}
+        handleDelete={handleDelete}
+      />
+      <button className={styles.deleteAll} onClick={() => setTodos([])}>
+        Delete all
+      </button>
     </div>
   );
 }
