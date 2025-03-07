@@ -1,4 +1,5 @@
-import React, { ChangeEvent } from 'react';
+import React, { ChangeEvent } from "react";
+import styles from "./styles.module.scss";
 
 interface InputProps {
   todo: string;
@@ -7,9 +8,14 @@ interface InputProps {
   isEdit: boolean;
 }
 
-const Input: React.FC<InputProps> = ({ todo, setTodo, handleAddEdit, isEdit }) => {
+const Input: React.FC<InputProps> = ({
+  todo,
+  setTodo,
+  handleAddEdit,
+  isEdit,
+}) => {
   return (
-    <div className="input-group">
+    <div className={styles.inputGroup}>
       <input
         type="text"
         value={todo}

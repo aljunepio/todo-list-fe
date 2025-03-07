@@ -1,0 +1,30 @@
+.todoList {
+  list-style: none;
+  padding: 0;
+
+  li {
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+  }
+
+  li:last-child {
+    border-bottom: none;
+  }
+
+  button {
+    border: none;
+    background: #dc3545;
+    color: #ffffff;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 5px;
+  }
+
+  button:hover {
+    background: #c82333;
+  }
+}

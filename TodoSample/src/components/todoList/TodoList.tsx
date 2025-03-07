@@ -1,5 +1,6 @@
-import React from 'react';
-import { Todo } from '../interfaces/types';
+import React from "react";
+import styles from "./styles.module.scss";
+import { Todo } from "../../interfaces/types";
 
 interface TodoListProps {
   todos: Todo[];
@@ -7,9 +8,13 @@ interface TodoListProps {
   handleDelete: (index: number) => void;
 }
 
-const TodoList: React.FC<TodoListProps> = ({ todos, handleEdit, handleDelete }) => {
+const TodoList: React.FC<TodoListProps> = ({
+  todos,
+  handleEdit,
+  handleDelete,
+}) => {
   return (
-    <ul className="todo-list">
+    <ul className={styles.todoList}>
       {todos.map((item, index) => (
         <li key={item.id}>
           {item.text}
