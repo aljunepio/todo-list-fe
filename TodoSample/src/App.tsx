@@ -43,6 +43,7 @@ function App() {
         setTodo={setTodo}
         handleAddEdit={handleAddEdit}
         isEdit={isEdit}
+        todos={todos}
       />
       <TodoList
         todos={todos}
