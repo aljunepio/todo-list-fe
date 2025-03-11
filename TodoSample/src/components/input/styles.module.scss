@@ -1,26 +1,33 @@
-.inputGroup {
+.inputContainer {
   display: flex;
-  margin-bottom: 20px;
-
-  input {
-    flex: 1;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px 0 0 4px;
-    outline: none;
+  flex-direction: column;
+  .error {
+    color: red;
   }
+  .inputGroup {
+    display: flex;
+    margin-bottom: 20px;
 
-  button {
-    padding: 10px 20px;
-    border: none;
-    background: #007bff;
-    color: #ffffff;
-    border-radius: 0 4px 4px 0;
-    cursor: pointer;
-    margin-left: 5px;
-  }
+    input {
+      flex: 1;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px 0 0 4px;
+      outline: none;
+    }
 
-  button:hover {
-    background: #0056b3;
+    button {
+      padding: 10px 20px;
+      border: none;
+      background: #007bff;
+      color: #ffffff;
+      border-radius: 0 4px 4px 0;
+      cursor: pointer;
+      margin-left: 5px;
+    }
+
+    button:hover {
+      background: #0056b3;
+    }
   }
 }
