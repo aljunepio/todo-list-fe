@@ -1,6 +1,6 @@
 export interface Todo {
   id: number;
-  text: string;
+  title: string;
 }
 export interface ModalDatas {
   showModal: number;

@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import styles from "./App.module.scss";
 import useLocalStorage from "./customHooks/useLocalStorage";
 import { ModalDatas, Todo } from "./interfaces/types";
@@ -19,7 +20,7 @@ function App() {
   });
 
   const handleEdit = (index: number) => {
-    setTodo(todos[index].text);
+    setTodo(todos[index].title);
     setIsEdit(true);
     setSelectedIndex(index);
   };
@@ -27,11 +28,11 @@ function App() {
   const handleAddEdit = () => {
     if (isEdit) {
       const updatedTodos = todos.map((item, index) =>
-        index === selectedIndex ? { ...item, text: todo } : item
+        index === selectedIndex ? { ...item, title: todo } : item
       );
       setTodos(updatedTodos);
     } else {
-      const newTodo: Todo = { id: Date.now(), text: todo };
+      const newTodo: Todo = { id: Date.now(), title: todo };
       setTodos([...todos, newTodo]);
     }
     setTodo("");
@@ -49,6 +50,15 @@ function App() {
       modalMessage: "Are you sure you want to delete all tasks?",
     });
   };
+
+  const fetchTasks = async () => {
+    const response = await axios.get("http://localhost:5000/tasks");
+    setTodos(response.data); // Todo
+  };
+
+  useEffect(() => {
+    fetchTasks();
+  }, []);
 
   return (
     <div className={styles.container}>
