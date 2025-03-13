@@ -24,7 +24,7 @@ const Input: React.FC<InputProps> = ({
       setError("Todo cannot be blank");
       return false;
     }
-    if (todos.some((existingTodo) => existingTodo.text === todo.trim())) {
+    if (todos.some((existingTodo) => existingTodo.title === todo.trim())) {
       setError("Todo is a duplicate");
       return false;
     }

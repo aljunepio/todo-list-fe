@@ -23,11 +23,12 @@ const TodoList: React.FC<TodoListProps> = ({
       selectedId: index,
     });
   };
+
   return (
     <ul className={styles.todoList}>
       {todos.map((item, index) => (
         <li key={item.id}>
-          {item.text}
+          {item.title}
           <div>
             <button onClick={() => handleDeleteClick(index)}>Delete</button>
             <button onClick={() => handleEdit(index)}>Edit</button>
