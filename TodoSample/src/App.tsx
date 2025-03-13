@@ -25,15 +25,18 @@ function App() {
     setSelectedIndex(index);
   };
 
-  const handleAddEdit = () => {
+  const handleAddEdit = async () => {
     if (isEdit) {
       const updatedTodos = todos.map((item, index) =>
         index === selectedIndex ? { ...item, title: todo } : item
       );
       setTodos(updatedTodos);
     } else {
-      const newTodo: Todo = { id: Date.now(), title: todo };
-      setTodos([...todos, newTodo]);
+      const newTodo: Todo = { id: Date.now(), title: todo, completed: false };
+      // setTodos([...todos, newTodo]);
+
+      const response = await axios.post("http://localhost:5000/tasks", newTodo);
+      console.log(response, "!!!!response");
     }
     setTodo("");
     setIsEdit(false);
