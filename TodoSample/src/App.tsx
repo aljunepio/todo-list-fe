@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import styles from "./App.module.scss";
 import useLocalStorage from "./customHooks/useLocalStorage";
+import { fetchTasks, addTask, updateTask, deleteTask } from "./api/api";
 import { ModalDatas, Todo } from "./interfaces/types";
 import Input from "./components/input/Input";
 import TodoList from "./components/todoList/TodoList";
@@ -12,35 +12,57 @@ function App() {
   const [todos, setTodos] = useLocalStorage("todos", []);
   const [todo, setTodo] = useState<string>("");
   const [isEdit, setIsEdit] = useState<boolean>(false);
-  const [selectedIndex, setSelectedIndex] = useState<number>(0);
+  const [selectedId, setSelectedId] = useState<number>(0);
   const [modalDatas, setModalDatas] = useState<ModalDatas>({
     showModal: modalType.hide,
     modalMessage: "",
     selectedId: 0,
   });
 
-  const handleEdit = (index: number) => {
-    setTodo(todos[index].title);
+  const handleEdit = (item: Todo) => {
+    setTodo(item.title);
     setIsEdit(true);
-    setSelectedIndex(index);
+    setSelectedId(item.id);
   };
 
-  const handleAddEdit = () => {
-    if (isEdit) {
-      const updatedTodos = todos.map((item, index) =>
-        index === selectedIndex ? { ...item, title: todo } : item
-      );
-      setTodos(updatedTodos);
-    } else {
-      const newTodo: Todo = { id: Date.now(), title: todo };
-      setTodos([...todos, newTodo]);
+  const handleAddEdit = async () => {
+    try {
+      if (isEdit) {
+        const editItem = todos.find((item) => item.id === selectedId);
+        if (!editItem) {
+          console.error("Task not found");
+          return;
+        }
+        const updatedTodo = { ...editItem, title: todo };
+        const response = await updateTask(editItem.id, updatedTodo);
+        const updatedTodos = todos.map((item) =>
+          item.id === selectedId ? response : item
+        );
+        setTodos(updatedTodos);
+      } else {
+        const newTodo: Todo = { id: Date.now(), title: todo, completed: false };
+        const response = await addTask(newTodo);
+        setTodos([...todos, response]);
+      }
+      setTodo("");
+      setIsEdit(false);
+    } catch (error) {
+      console.error("Error handling add/edit task:", error);
     }
-    setTodo("");
-    setIsEdit(false);
   };
 
-  const handleDelete = (index: number) => {
-    setTodos(todos.filter((_, i) => i !== index));
+  const handleDelete = async (id: number) => {
+    try {
+      const itemToDelete = todos.find((item) => item.id === id);
+      if (!itemToDelete) {
+        console.error("Task not found");
+        return;
+      }
+      await deleteTask(id);
+      setTodos(todos.filter((item) => item.id !== id));
+    } catch (error) {
+      console.error("Error handling delete task:", error);
+    }
   };
 
   const handleDeleteAllClick = () => {
@@ -51,13 +73,16 @@ function App() {
     });
   };
 
-  const fetchTasks = async () => {
-    const response = await axios.get("http://localhost:5000/tasks");
-    setTodos(response.data); // Todo
-  };
-
   useEffect(() => {
-    fetchTasks();
+    const loadTasks = async () => {
+      try {
+        const tasks = await fetchTasks();
+        setTodos(tasks);
+      } catch (error) {
+        console.error("Error loading tasks:", error);
+      }
+    };
+    loadTasks();
   }, []);
 
   return (
