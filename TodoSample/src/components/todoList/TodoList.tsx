@@ -5,7 +5,7 @@ import { modalType } from "../../enums/modalEnums";
 
 interface TodoListProps {
   todos: Todo[];
-  handleEdit: (index: number) => void;
+  handleEdit: (index: Todo) => void;
   modalDatas: ModalDatas;
   setModalDatas: (datas: ModalDatas) => void;
 }
@@ -16,22 +16,23 @@ const TodoList: React.FC<TodoListProps> = ({
   modalDatas,
   setModalDatas,
 }) => {
-  const handleDeleteClick = (index: number) => {
+  const handleDeleteClick = (item: Todo) => {
     setModalDatas({
       ...modalDatas,
       showModal: modalType.delete,
-      selectedId: index,
+      modalMessage: `Are you sure you want to delete ${item.title}?`,
+      selectedId: item.id,
     });
   };
 
   return (
     <ul className={styles.todoList}>
-      {todos.map((item, index) => (
+      {todos.map((item) => (
         <li key={item.id}>
           {item.title}
           <div>
-            <button onClick={() => handleDeleteClick(index)}>Delete</button>
-            <button onClick={() => handleEdit(index)}>Edit</button>
+            <button onClick={() => handleDeleteClick(item)}>Delete</button>
+            <button onClick={() => handleEdit(item)}>Edit</button>
           </div>
         </li>
       ))}
