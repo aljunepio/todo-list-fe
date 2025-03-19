@@ -5,6 +5,8 @@ export const reducer = (state: AppState, action: Action) => {
   switch (action.type) {
     case ACTIONS.SET_TODOS:
       return { ...state, todos: action.payload };
+    case ACTIONS.SET_LOADING:
+      return { ...state, isLoading: action.payload };
     case ACTIONS.ADD_TODO:
       return {
         ...state,

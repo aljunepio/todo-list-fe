@@ -1,8 +1,10 @@
+@import "../../styles/variables";
+
 .inputContainer {
   display: flex;
   flex-direction: column;
   .error {
-    color: red;
+    color: $primaryRed;
   }
   .inputGroup {
     display: flex;
@@ -11,7 +13,7 @@
     input {
       flex: 1;
       padding: 10px;
-      border: 1px solid #ddd;
+      border: 1px solid $borderColor;
       border-radius: 4px 0 0 4px;
       outline: none;
     }
@@ -19,15 +21,15 @@
     button {
       padding: 10px 20px;
       border: none;
-      background: #007bff;
-      color: #ffffff;
+      background: $primaryBlue;
+      color: $white;
       border-radius: 0 4px 4px 0;
       cursor: pointer;
       margin-left: 5px;
     }
 
     button:hover {
-      background: #0056b3;
+      background: $primaryBlueHover;
     }
   }
 }

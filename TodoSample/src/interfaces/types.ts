@@ -11,6 +11,7 @@ export interface ModalDatas {
 
 export interface AppState {
   todos: Todo[];
+  isLoading: boolean;
   todo: string;
   isEdit: boolean;
   selectedId: number;

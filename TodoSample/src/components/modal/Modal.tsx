@@ -28,7 +28,7 @@ const Modal: React.FC<ModalProps> = ({
   return (
     <div className={styles.modalContainer}>
       <div className={styles.modal}>
-        <p>{modalMessage}</p>
+        <div className={styles.modalMessage}>{modalMessage}</div>
         <div className={styles.buttons}>
           <button onClick={onConfirm}>Yes</button>
           <button

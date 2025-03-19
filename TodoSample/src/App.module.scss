@@ -1,6 +1,8 @@
+@import "./styles/variables";
+
 body {
   font-family: Arial, sans-serif;
-  background-color: #f4f4f4;
+  background-color: $whiteBG;
   margin: 0;
   padding: 0;
   display: flex;
@@ -10,8 +12,8 @@ body {
 }
 
 .container {
-  background: #ffffff;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background: $white;
+  box-shadow: 0 0 10px $opacity1;
   padding: 20px;
   border-radius: 8px;
   width: 400px;
@@ -24,8 +26,8 @@ body {
   .deleteAll {
     padding: 10px 20px;
     border: none;
-    background: #dc3545;
-    color: #ffffff;
+    background: $primaryRed;
+    color: $white;
     border-radius: 4px;
     cursor: pointer;
     margin-top: 20px;
@@ -34,6 +36,6 @@ body {
   }
 
   .deleteAll:hover {
-    background: #c82333;
+    background: $primaryRedHover;
   }
 }
