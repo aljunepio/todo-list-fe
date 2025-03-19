@@ -2,6 +2,7 @@ import { modalType } from "../enums/modalEnums";
 
 export const initialState = {
   todos: [],
+  isLoading: false,
   todo: "",
   isEdit: false,
   selectedId: 0,

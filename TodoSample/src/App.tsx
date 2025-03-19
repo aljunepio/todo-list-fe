@@ -12,6 +12,7 @@ import { Todo } from "./interfaces/types";
 
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const { todos, todo, isLoading, isEdit, selectedId, modalDatas } = state;
 
   const handleEdit = (item: Todo) => {
     dispatch({ type: ACTIONS.SET_TODO_INPUT, payload: item.title });
@@ -20,19 +21,17 @@ function App() {
 
   const handleAddEdit = async () => {
     try {
-      if (state.isEdit) {
-        const editItem = state.todos.find(
-          (item: Todo) => item.id === state.selectedId
-        );
+      if (isEdit) {
+        const editItem = todos.find((item: Todo) => item.id === selectedId);
         if (!editItem) {
           console.error("Task not found");
           return;
         }
-        const updatedTodo = { ...editItem, title: state.todo };
+        const updatedTodo = { ...editItem, title: todo };
         const response = await updateTask(editItem.id, updatedTodo);
         dispatch({ type: ACTIONS.UPDATE_TODO, payload: response });
       } else {
-        const newTodo = { id: Date.now(), title: state.todo, completed: false };
+        const newTodo = { id: Date.now(), title: todo, completed: false };
         const response = await addTask(newTodo);
         dispatch({ type: ACTIONS.ADD_TODO, payload: response });
       }
@@ -64,8 +63,10 @@ function App() {
   useEffect(() => {
     const loadTasks = async () => {
       try {
+        dispatch({ type: ACTIONS.SET_LOADING, payload: true });
         const tasks = await fetchTasks();
         dispatch({ type: ACTIONS.SET_TODOS, payload: tasks });
+        dispatch({ type: ACTIONS.SET_LOADING, payload: false });
       } catch (error) {
         console.error("Error loading tasks:", error);
       }
@@ -77,29 +78,32 @@ function App() {
     <div className={styles.container}>
       <div className={styles.title}>Todo List</div>
       <Input
-        todo={state.todo}
+        todo={todo}
         setTodo={(value) =>
           dispatch({ type: ACTIONS.SET_TODO_INPUT, payload: value })
         }
         handleAddEdit={handleAddEdit}
-        isEdit={state.isEdit}
-        todos={state.todos}
+        isEdit={isEdit}
+        todos={todos}
       />
-
-      <TodoList
-        todos={state.todos}
-        handleEdit={handleEdit}
-        modalDatas={state.modalDatas}
-        setModalDatas={(data) =>
-          dispatch({ type: ACTIONS.SET_MODAL_DATA, payload: data })
-        }
-      />
+      {isLoading ? (
+        "Loading..."
+      ) : (
+        <TodoList
+          todos={todos}
+          handleEdit={handleEdit}
+          modalDatas={modalDatas}
+          setModalDatas={(data) =>
+            dispatch({ type: ACTIONS.SET_MODAL_DATA, payload: data })
+          }
+        />
+      )}
       <button className={styles.deleteAll} onClick={handleDeleteAllClick}>
         Delete all
       </button>
-      {state.modalDatas.showModal ? (
+      {modalDatas.showModal ? (
         <Modal
-          modalDatas={state.modalDatas}
+          modalDatas={modalDatas}
           setModalDatas={(data) =>
             dispatch({ type: ACTIONS.SET_MODAL_DATA, payload: data })
           }

@@ -29,7 +29,7 @@ const TodoList: React.FC<TodoListProps> = ({
     <ul className={styles.todoList}>
       {todos.map((item) => (
         <li key={item.id}>
-          {item.title}
+          <span className={styles.todoListTitle}>{item.title}</span>
           <div>
             <button onClick={() => handleDeleteClick(item)}>Delete</button>
             <button onClick={() => handleEdit(item)}>Edit</button>
