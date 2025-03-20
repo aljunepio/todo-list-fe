@@ -12,7 +12,15 @@ import { Todo } from "./interfaces/types";
 
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const { todos, todo, isLoading, isEdit, selectedId, modalDatas } = state;
+  const {
+    todos,
+    todo,
+    isLoading,
+    isEdit,
+    selectedId,
+    modalDatas,
+    errorMessage,
+  } = state;
 
   const handleEdit = (item: Todo) => {
     dispatch({ type: ACTIONS.SET_TODO_INPUT, payload: item.title });
@@ -69,6 +77,11 @@ function App() {
         dispatch({ type: ACTIONS.SET_LOADING, payload: false });
       } catch (error) {
         console.error("Error loading tasks:", error);
+        dispatch({
+          type: ACTIONS.SET_ERROR,
+          payload: `Error loading tasks: ${error}`,
+        });
+        dispatch({ type: ACTIONS.SET_LOADING, payload: false });
       }
     };
     loadTasks();
@@ -88,6 +101,8 @@ function App() {
       />
       {isLoading ? (
         "Loading..."
+      ) : errorMessage ? (
+        errorMessage
       ) : (
         <TodoList
           todos={todos}

@@ -11,4 +11,5 @@ export const initialState = {
     modalMessage: "",
     selectedId: 0,
   },
+  errorMessage: "",
 };

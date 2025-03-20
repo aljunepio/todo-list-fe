@@ -36,6 +36,8 @@ export const reducer = (state: AppState, action: Action) => {
       return { ...state, todo: "", isEdit: false, selectedId: 0 };
     case ACTIONS.SET_SELECTED_ID:
       return { ...state, isEdit: true, selectedId: action.payload };
+    case ACTIONS.SET_ERROR:
+      return { ...state, errorMessage: action.payload };
     default:
       return state;
   }
