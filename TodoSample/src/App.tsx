@@ -1,22 +1,23 @@
-import React, { useReducer, useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import styles from "./App.module.scss";
 import { fetchTasks, addTask, updateTask, deleteTask } from "./utils/api";
 import Input from "./components/input/Input";
 import TodoList from "./components/todoList/TodoList";
 import Modal from "./components/modal/Modal";
-import { initialState } from "./context/initialStates";
-import { reducer } from "./context/reducer";
-import { ACTIONS } from "./context/actions";
+import { TodoContext } from "./context/TodoContext";
 import { modalType } from "./enums/modalEnums";
 import { Todo } from "./interfaces/types";
 
 function App() {
-  const [state, dispatch] = useReducer(reducer, initialState);
-  const { todos, todo, isLoading, isEdit, selectedId, modalDatas } = state;
+    const todoContext = useContext(TodoContext);
+
+    const { state, updateState } = todoContext;
+    const { todos, todo, isLoading, isEdit, selectedId, modalDatas, errorMessage } = state;
 
   const handleEdit = (item: Todo) => {
-    dispatch({ type: ACTIONS.SET_TODO_INPUT, payload: item.title });
-    dispatch({ type: ACTIONS.SET_SELECTED_ID, payload: item.id });
+    updateState("todo", item.title);
+    updateState("selectedId", item.id);
+    updateState("isEdit", true);
   };
 
   const handleAddEdit = async () => {
@@ -29,12 +30,19 @@ function App() {
         }
         const updatedTodo = { ...editItem, title: todo };
         const response = await updateTask(editItem.id, updatedTodo);
-        dispatch({ type: ACTIONS.UPDATE_TODO, payload: response });
+        updateState(
+          "todos",
+          todos.map((item: Todo) =>
+            item.id === updatedTodo.id ? updatedTodo : item
+          )
+        );
       } else {
         const newTodo = { id: Date.now(), title: todo, completed: false };
         const response = await addTask(newTodo);
-        dispatch({ type: ACTIONS.ADD_TODO, payload: response });
+        updateState("todos", [...todos, response]);
       }
+      updateState("todo", "");
+      updateState("isEdit", false);
     } catch (error) {
       console.error("Error handling add/edit task:", error);
     }
@@ -43,32 +51,25 @@ function App() {
   const handleDelete = async (id: number) => {
     try {
       await deleteTask(id);
-      dispatch({ type: ACTIONS.DELETE_TODO, payload: id });
+      updateState(
+        "todos",
+        todos.filter((item: Todo) => item.id !== id)
+      );
     } catch (error) {
       console.error("Error handling delete task:", error);
     }
   };
 
-  const handleDeleteAllClick = () => {
-    dispatch({
-      type: ACTIONS.SET_MODAL_DATA,
-      payload: {
-        showModal: modalType.deleteAll,
-        modalMessage: "Are you sure you want to delete all tasks?",
-        selectedId: 0,
-      },
-    });
-  };
-
   useEffect(() => {
     const loadTasks = async () => {
       try {
-        dispatch({ type: ACTIONS.SET_LOADING, payload: true });
+        updateState("isLoading", true);
         const tasks = await fetchTasks();
-        dispatch({ type: ACTIONS.SET_TODOS, payload: tasks });
-        dispatch({ type: ACTIONS.SET_LOADING, payload: false });
+        updateState("todos", tasks);
+        updateState("isLoading", false);
       } catch (error) {
-        console.error("Error loading tasks:", error);
+        updateState("errorMessage", `Error loading tasks: ${error}`);
+        updateState("isLoading", false);
       }
     };
     loadTasks();
@@ -79,37 +80,40 @@ function App() {
       <div className={styles.title}>Todo List</div>
       <Input
         todo={todo}
-        setTodo={(value) =>
-          dispatch({ type: ACTIONS.SET_TODO_INPUT, payload: value })
-        }
+        setTodo={(value) => updateState("todo", value)}
         handleAddEdit={handleAddEdit}
         isEdit={isEdit}
         todos={todos}
       />
       {isLoading ? (
         "Loading..."
+      ) : errorMessage ? (
+        errorMessage
       ) : (
         <TodoList
           todos={todos}
           handleEdit={handleEdit}
           modalDatas={modalDatas}
-          setModalDatas={(data) =>
-            dispatch({ type: ACTIONS.SET_MODAL_DATA, payload: data })
-          }
+          setModalDatas={(data) => updateState("modalDatas", data)}
         />
       )}
-      <button className={styles.deleteAll} onClick={handleDeleteAllClick}>
+      <button
+        className={styles.deleteAll}
+        onClick={() =>
+          updateState("modalDatas", {
+            showModal: modalType.deleteAll,
+            modalMessage: "Are you sure you want to delete all tasks?",
+            selectedId: 0,
+          })
+        }
+      >
         Delete all
       </button>
       {modalDatas.showModal ? (
         <Modal
           modalDatas={modalDatas}
-          setModalDatas={(data) =>
-            dispatch({ type: ACTIONS.SET_MODAL_DATA, payload: data })
-          }
-          setTodos={(todos) =>
-            dispatch({ type: ACTIONS.SET_TODOS, payload: todos })
-          }
+          setModalDatas={(data) => updateState("modalDatas", data)}
+          setTodos={(data) => updateState("todos", data)}
           handleDelete={handleDelete}
         />
       ) : null}

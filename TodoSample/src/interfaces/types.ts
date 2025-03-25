@@ -16,6 +16,7 @@ export interface AppState {
   isEdit: boolean;
   selectedId: number;
   modalDatas: ModalDatas;
+  errorMessage: string;
 }
 
 export interface Action {
