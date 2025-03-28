@@ -11,10 +11,17 @@ export interface ModalDatas {
 
 export interface AppState {
   todos: Todo[];
-  isLoading: boolean;
+  setTodos: (value: Todo[]) => void;
   todo: string;
+  setTodo: (value: string) => void;
   isEdit: boolean;
+  setIsEdit: (value: boolean) => void;
   selectedId: number;
+  setSelectedId: (value: number) => void;
   modalDatas: ModalDatas;
+  setModalDatas: (item: ModalDatas) => void;
+  isLoading: boolean;
+  setIsLoading: (value: boolean) => void;
   errorMessage: string;
+  setErrorMessage: (value: string) => void;
 }
