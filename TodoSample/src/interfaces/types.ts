@@ -18,8 +18,3 @@ export interface AppState {
   modalDatas: ModalDatas;
   errorMessage: string;
 }
-
-export interface Action {
-  type: string;
-  payload?: any;
-}
