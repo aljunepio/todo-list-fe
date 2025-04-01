@@ -2,6 +2,7 @@ import React from "react";
 import styles from "./modalStyle.module.scss";
 import { modalType } from "../../enums/modalEnums";
 import { ModalDatas, Todo } from "../../interfaces/types";
+import { deleteAllTask } from "../../utils/api";
 
 interface ModalProps {
   modalDatas: ModalDatas;
@@ -17,9 +18,19 @@ const Modal: React.FC<ModalProps> = ({
   handleDelete,
 }) => {
   const { showModal, modalMessage, selectedId } = modalDatas;
+
+  const deleteAllTasks = async () => {
+    try {
+      await deleteAllTask();
+      setTodos([]);
+    } catch (error) {
+      console.error("Error handling delete task:", error);
+    }
+  };
+
   const onConfirm = () => {
     if (showModal === modalType.deleteAll) {
-      setTodos([]);
+      deleteAllTasks();
     } else if (showModal === modalType.delete) {
       handleDelete(selectedId);
     }

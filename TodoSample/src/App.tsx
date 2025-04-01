@@ -94,19 +94,16 @@ function App() {
       ) : errorMessage ? (
         errorMessage
       ) : (
-        <TodoList
-          handleEdit={handleEdit}
-        />
+        <TodoList handleEdit={handleEdit} />
       )}
       <button
         className={styles.deleteAll}
-        onClick={
-          () =>
-            setModalDatas({
-              showModal: modalType.deleteAll,
-              modalMessage: "Are you sure you want to delete all tasks?",
-              selectedId: 0,
-            })
+        onClick={() =>
+          setModalDatas({
+            showModal: modalType.deleteAll,
+            modalMessage: "Are you sure you want to delete all tasks?",
+            selectedId: 0,
+          })
         }
       >
         Delete all

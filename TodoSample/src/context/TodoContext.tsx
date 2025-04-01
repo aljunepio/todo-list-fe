@@ -2,8 +2,9 @@ import React, { createContext, useState, ReactNode } from "react";
 import { AppState, ModalDatas } from "../interfaces/types";
 import useLocalStorage from "../customHooks/useLocalStorage";
 import { modalType } from "../enums/modalEnums";
+import { initialState } from "./initialStates";
 
-export const TodoContext = createContext<AppState | null>(null);
+export const TodoContext = createContext<AppState>(initialState);
 
 export const TodoProvider: React.FC<{ children: ReactNode }> = ({
   children,

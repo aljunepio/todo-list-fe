@@ -42,3 +42,13 @@ export const deleteTask = async (id: number) => {
     throw error;
   }
 };
+
+export const deleteAllTask = async () => {
+  try {
+    const response = await axios.delete(API_URL);
+    return response.data;
+  } catch (error) {
+    console.error("Error deleting task:", error);
+    throw error;
+  }
+};
