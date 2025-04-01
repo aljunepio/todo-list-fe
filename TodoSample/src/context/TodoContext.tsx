@@ -9,7 +9,6 @@ export const TodoContext = createContext<AppState>(initialState);
 export const TodoProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  // const [state, setState] = useState<AppState>(initialState);
   const [todos, setTodos] = useLocalStorage("todos", []);
   const [todo, setTodo] = useState<string>("");
   const [isEdit, setIsEdit] = useState<boolean>(false);
@@ -21,13 +20,6 @@ export const TodoProvider: React.FC<{ children: ReactNode }> = ({
   });
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
-
-  // const updateState = (key: keyof AppState, value: any) => {
-  //   setState((prevState) => ({
-  //     ...prevState,
-  //     [key]: value,
-  //   }));
-  // };
 
   return (
     <TodoContext.Provider
