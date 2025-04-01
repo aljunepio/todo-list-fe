@@ -105,6 +105,7 @@ function App() {
             selectedId: 0,
           })
         }
+        disabled={isEdit}
       >
         Delete all
       </button>
