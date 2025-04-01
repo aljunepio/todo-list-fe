@@ -2,14 +2,17 @@ import { modalType } from "../enums/modalEnums";
 
 export const initialState = {
   todos: [],
-  isLoading: false,
+  setTodos: () => {},
   todo: "",
+  setTodo: () => {},
   isEdit: false,
+  setIsEdit: () => {},
   selectedId: 0,
-  modalDatas: {
-    showModal: modalType.hide,
-    modalMessage: "",
-    selectedId: 0,
-  },
+  setSelectedId: () => {},
+  modalDatas: { showModal: modalType.hide, modalMessage: "", selectedId: 0 },
+  setModalDatas: () => {},
+  isLoading: false,
+  setIsLoading: () => {},
   errorMessage: "",
+  setErrorMessage: () => {},
 };
