@@ -17,6 +17,8 @@ body {
   padding: 20px;
   border-radius: 8px;
   width: 400px;
+  max-height: 60vh;
+  overflow: auto;
 
   .title {
     font-size: 24px;
