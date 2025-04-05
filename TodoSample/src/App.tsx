@@ -70,6 +70,18 @@ function App() {
     }
   };
 
+  const getTodosList = () => {
+    if (!todos.length) {
+      return "No task to be displayed";
+    } else if (isLoading) {
+      return "Loading...";
+    } else if (errorMessage) {
+      return errorMessage;
+    } else {
+      return <TodoList handleEdit={handleEdit} />;
+    }
+  };
+
   useEffect(() => {
     const loadTasks = async () => {
       try {
@@ -89,13 +101,14 @@ function App() {
     <div className={styles.container}>
       <div className={styles.title}>Todo List</div>
       <Input handleAddEdit={handleAddEdit} />
-      {isLoading ? (
+      {/* {isLoading ? (
         "Loading..."
       ) : errorMessage ? (
         errorMessage
       ) : (
         <TodoList handleEdit={handleEdit} />
-      )}
+      )} */}
+      {getTodosList()}
       <button
         className={styles.deleteAll}
         onClick={() =>
