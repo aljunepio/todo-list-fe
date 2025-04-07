@@ -10,7 +10,7 @@ interface TodoListProps {
 
 const TodoList: React.FC<TodoListProps> = ({ handleEdit }) => {
   const todoContext = useContext<AppState>(TodoContext);
-  const { todos, setModalDatas } = todoContext;
+  const { todos, setTodos, setModalDatas } = todoContext;
   const handleDeleteClick = (item: Todo) => {
     // setModalDatas({
     //   ...modalDatas,
@@ -25,10 +25,23 @@ const TodoList: React.FC<TodoListProps> = ({ handleEdit }) => {
     });
   };
 
+  const handleCheckboxChange = (item: Todo) => {
+    setTodos(
+      todos.map((todo) =>
+        todo.id === item.id ? { ...todo, completed: !todo.completed } : todo
+      )
+    );
+  };
+
   return (
     <ul className={styles.todoList}>
       {todos.map((item: Todo) => (
         <li key={item.id}>
+          <input
+            type="checkbox"
+            checked={item.completed}
+            onChange={() => handleCheckboxChange(item)}
+          />
           <span className={styles.todoListTitle}>{item.title}</span>
           <div>
             <button onClick={() => handleDeleteClick(item)}>Delete</button>
