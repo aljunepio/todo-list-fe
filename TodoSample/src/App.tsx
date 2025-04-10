@@ -43,7 +43,7 @@ function App() {
           return;
         }
         const updatedTodo = { ...editItem, title: todo };
-        const response = await updateTask(editItem.id, updatedTodo);
+        await updateTask(editItem.id, updatedTodo);
         setTodos(
           todos.map((item: Todo) =>
             item.id === updatedTodo.id ? updatedTodo : item
