@@ -11,8 +11,12 @@
     align-items: center;
     border-bottom: 1px solid #ddd;
     .todoListTitle {
-      width: 250px;
+      width: 240px;
       overflow-wrap: break-word;
+    }
+    .completed {
+      color: gray;
+      text-decoration: line-through;
     }
   }
 
