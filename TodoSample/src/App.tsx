@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import { useContext, useEffect } from "react";
 import styles from "./App.module.scss";
 import { fetchTasks, addTask, updateTask, deleteTask } from "./utils/api";
 import Input from "./components/input/Input";
