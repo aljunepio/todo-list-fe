@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Todo } from "../interfaces/types";
 
-const API_URL = "http://localhost:5000/tasks";
+const API_URL = "https://todobackend-5fod.onrender.com/tasks";
 
 export const fetchTasks = async () => {
   try {
