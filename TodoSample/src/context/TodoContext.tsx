@@ -20,6 +20,7 @@ export const TodoProvider: React.FC<{ children: ReactNode }> = ({
   });
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
+  const [isSpin, setIsSpin] = useState<boolean>(false);
 
   return (
     <TodoContext.Provider
@@ -38,6 +39,8 @@ export const TodoProvider: React.FC<{ children: ReactNode }> = ({
         setIsLoading,
         errorMessage,
         setErrorMessage,
+        isSpin,
+        setIsSpin,
       }}
     >
       {children}

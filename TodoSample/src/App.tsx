@@ -26,6 +26,7 @@ function App() {
     setIsLoading,
     errorMessage,
     setErrorMessage,
+    setIsSpin,
   } = todoContext;
 
   const handleEdit = (item: Todo) => {
@@ -43,7 +44,7 @@ function App() {
           return;
         }
         const updatedTodo = { ...editItem, title: todo };
-        await updateTask(editItem.id, updatedTodo);
+        await updateTask(editItem.id, updatedTodo, setIsSpin);
         setTodos(
           todos.map((item: Todo) =>
             item.id === updatedTodo.id ? updatedTodo : item
@@ -51,7 +52,7 @@ function App() {
         );
       } else {
         const newTodo = { id: Date.now(), title: todo, completed: false };
-        const response = await addTask(newTodo);
+        const response = await addTask(newTodo, setIsSpin);
         setTodos([...todos, response]);
       }
       setTodo("");

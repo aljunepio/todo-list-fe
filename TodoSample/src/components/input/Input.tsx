@@ -19,7 +19,7 @@ const Input: React.FC<InputProps> = ({
   // todos,
 }) => {
   const todoContext = useContext<AppState>(TodoContext);
-  const { todo, setTodo, todos, isEdit } = todoContext;
+  const { todo, setTodo, todos, isEdit, isSpin } = todoContext;
   const [error, setError] = useState<string>("");
 
   const validateInput = () => {
@@ -41,6 +41,16 @@ const Input: React.FC<InputProps> = ({
     return true;
   };
 
+  const getButtonText = () => {
+    if (isSpin) {
+      return <div className={styles.loader} />;
+    } else if (isEdit) {
+      return "Edit";
+    } else {
+      return "Add";
+    }
+  };
+
   const handleAddEditClick = () => {
     if (validateInput()) {
       handleAddEdit();
@@ -56,7 +66,7 @@ const Input: React.FC<InputProps> = ({
           value={todo}
           onChange={(e) => setTodo(e.target.value)}
         />
-        <button onClick={handleAddEditClick}>{isEdit ? "Edit" : "Add"}</button>
+        <button onClick={handleAddEditClick}>{getButtonText()}</button>
         <button onClick={() => setTodo("")}>Clear</button>
       </div>
     </div>

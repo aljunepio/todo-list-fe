@@ -15,4 +15,6 @@ export const initialState = {
   setIsLoading: () => {},
   errorMessage: "",
   setErrorMessage: () => {},
+  isSpin: false,
+  setIsSpin: () => {},
 };
