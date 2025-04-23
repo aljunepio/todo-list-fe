@@ -13,9 +13,14 @@ export const fetchTasks = async () => {
   }
 };
 
-export const addTask = async (task: Todo) => {
+export const addTask = async (
+  task: Todo,
+  setIsSpin: (value: boolean) => void
+) => {
   try {
+    setIsSpin(true);
     const response = await axios.post(API_URL, task);
+    setIsSpin(false);
     return response.data;
   } catch (error) {
     console.error("Error adding task:", error);
@@ -23,9 +28,15 @@ export const addTask = async (task: Todo) => {
   }
 };
 
-export const updateTask = async (id: number, updatedTask: Todo) => {
+export const updateTask = async (
+  id: number,
+  updatedTask: Todo,
+  setIsSpin: (value: boolean) => void
+) => {
   try {
+    setIsSpin(true);
     const response = await axios.put(`${API_URL}/${id}`, updatedTask);
+    setIsSpin(false);
     return response.data;
   } catch (error) {
     console.error("Error updating task:", error);

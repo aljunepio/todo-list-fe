@@ -24,4 +24,6 @@ export interface AppState {
   setIsLoading: (value: boolean) => void;
   errorMessage: string;
   setErrorMessage: (value: string) => void;
+  isSpin: boolean;
+  setIsSpin: (value: boolean) => void;
 }

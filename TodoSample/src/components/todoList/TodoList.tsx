@@ -25,9 +25,9 @@ const TodoList: React.FC<TodoListProps> = ({ handleEdit }) => {
     const updateItem = todos.find((item: Todo) => item.id === selectedItem.id);
     if (!updateItem) return console.error("Task not found");
     const updatedTodo = { ...updateItem, completed: !updateItem?.completed };
-    await updateTask(updateItem.id, updatedTodo);
+    await updateTask(updateItem.id, updatedTodo, () => {});
     setTodos(
-      todos.map((todo:Todo) =>
+      todos.map((todo: Todo) =>
         todo.id === selectedItem.id
           ? { ...todo, completed: !todo.completed }
           : todo
