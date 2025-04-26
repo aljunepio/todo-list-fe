@@ -73,9 +73,11 @@ function App() {
 
   const getTodosList = () => {
     if (!todos.length) {
-      return "No task to be displayed";
+      return (
+        <div className={styles.todoContainer}>No task to be displayed</div>
+      );
     } else if (isLoading) {
-      return "Loading...";
+      return <div className={styles.todoContainer}>Loading...</div>;
     } else if (errorMessage) {
       return errorMessage;
     } else {

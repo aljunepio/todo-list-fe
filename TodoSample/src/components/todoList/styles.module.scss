@@ -3,19 +3,21 @@
 .todoList {
   list-style: none;
   padding: 0;
+  height: 70%;
+  overflow: auto;
 
   li {
     padding: 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid $listLineColor;
     .todoListTitle {
-      width: 240px;
+      width: 60%;
       overflow-wrap: break-word;
     }
     .completed {
-      color: gray;
+      color: $grayColor;
       text-decoration: line-through;
     }
   }
