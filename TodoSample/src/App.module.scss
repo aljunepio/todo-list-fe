@@ -17,8 +17,13 @@ body {
   padding: 20px;
   border-radius: 8px;
   width: 400px;
-  max-height: 60vh;
-  overflow: auto;
+  height: 60vh;
+  // max-height: 60vh;
+  // overflow: auto;
+
+  .todoContainer {
+    height: 72%;
+  }
 
   .title {
     font-size: 24px;
