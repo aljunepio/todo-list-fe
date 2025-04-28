@@ -67,7 +67,7 @@ const Input: React.FC<InputProps> = ({
           onChange={(e) => setTodo(e.target.value)}
         />
         <button onClick={handleAddEditClick} disabled={isSpin}>
-          {getButtonText()}
+          {isEdit ? "Edit" : "Add"}
         </button>
         <button onClick={() => setTodo("")}>Clear</button>
       </div>

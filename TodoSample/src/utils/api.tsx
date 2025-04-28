@@ -44,9 +44,14 @@ export const updateTask = async (
   }
 };
 
-export const deleteTask = async (id: number) => {
+export const deleteTask = async (
+  id: number,
+  setIsSpin: (value: boolean) => void
+) => {
   try {
+    setIsSpin(true);
     const response = await axios.delete(`${API_URL}/${id}`);
+    setIsSpin(false);
     return response.data;
   } catch (error) {
     console.error("Error deleting task:", error);
@@ -54,9 +59,11 @@ export const deleteTask = async (id: number) => {
   }
 };
 
-export const deleteAllTask = async () => {
+export const deleteAllTask = async (setIsSpin: (value: boolean) => void) => {
   try {
+    setIsSpin(true);
     const response = await axios.delete(API_URL);
+    setIsSpin(false);
     return response.data;
   } catch (error) {
     console.error("Error deleting task:", error);

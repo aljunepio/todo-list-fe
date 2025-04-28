@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
 import styles from "./modalStyle.module.scss";
 import { modalType } from "../../enums/modalEnums";
-import { ModalDatas, Todo } from "../../interfaces/types";
+import { AppState, ModalDatas, Todo } from "../../interfaces/types";
 import { deleteAllTask } from "../../utils/api";
+import { TodoContext } from "../../context/TodoContext";
 
 interface ModalProps {
   modalDatas: ModalDatas;
@@ -17,11 +18,13 @@ const Modal: React.FC<ModalProps> = ({
   setTodos,
   handleDelete,
 }) => {
+  const todoContext = useContext<AppState>(TodoContext);
+  const { setIsSpin } = todoContext;
   const { showModal, modalMessage, selectedId } = modalDatas;
 
   const deleteAllTasks = async () => {
     try {
-      await deleteAllTask();
+      await deleteAllTask(setIsSpin);
       setTodos([]);
     } catch (error) {
       console.error("Error handling delete task:", error);
