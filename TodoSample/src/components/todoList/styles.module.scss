@@ -7,13 +7,13 @@
   overflow: auto;
 
   li {
-    padding: 10px;
+    padding: 6px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid $listLineColor;
     .todoListTitle {
-      width: 60%;
+      width: 56%;
       overflow-wrap: break-word;
     }
     .completed {

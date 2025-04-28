@@ -7,6 +7,7 @@ import Modal from "./components/modal/Modal";
 import { TodoContext } from "./context/TodoContext";
 import { modalType } from "./enums/modalEnums";
 import { AppState, Todo } from "./interfaces/types";
+import Loading from "./components/loading/Loading";
 
 function App() {
   const todoContext = useContext<AppState>(TodoContext);
@@ -26,6 +27,7 @@ function App() {
     setIsLoading,
     errorMessage,
     setErrorMessage,
+    isSpin,
     setIsSpin,
   } = todoContext;
 
@@ -64,7 +66,7 @@ function App() {
 
   const handleDelete = async (id: number) => {
     try {
-      await deleteTask(id);
+      await deleteTask(id, setIsSpin);
       setTodos(todos.filter((item: Todo) => item.id !== id));
     } catch (error) {
       console.error("Error handling delete task:", error);
@@ -104,13 +106,6 @@ function App() {
     <div className={styles.container}>
       <div className={styles.title}>Todo List</div>
       <Input handleAddEdit={handleAddEdit} />
-      {/* {isLoading ? (
-        "Loading..."
-      ) : errorMessage ? (
-        errorMessage
-      ) : (
-        <TodoList handleEdit={handleEdit} />
-      )} */}
       {getTodosList()}
       <button
         className={styles.deleteAll}
@@ -133,6 +128,7 @@ function App() {
           handleDelete={handleDelete}
         />
       ) : null}
+      {isSpin ? <Loading isSpin={isSpin} /> : null}
     </div>
   );
 }
