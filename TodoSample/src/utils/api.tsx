@@ -3,9 +3,11 @@ import { Todo } from "../interfaces/types";
 
 const API_URL = "https://todobackend-5fod.onrender.com/tasks";
 
-export const fetchTasks = async () => {
+export const fetchTasks = async (setIsSpin: (value: boolean) => void) => {
   try {
+    setIsSpin(true);
     const response = await axios.get(API_URL);
+    setIsSpin(false);
     return response.data;
   } catch (error) {
     console.error("Error fetching tasks:", error);

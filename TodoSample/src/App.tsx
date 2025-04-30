@@ -91,7 +91,7 @@ function App() {
     const loadTasks = async () => {
       try {
         setIsLoading(true);
-        const tasks = await fetchTasks();
+        const tasks = await fetchTasks(setIsSpin);
         setTodos(tasks);
         setIsLoading(false);
       } catch (error) {
