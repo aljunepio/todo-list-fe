@@ -4,20 +4,10 @@ import { AppState, Todo } from "../../interfaces/types";
 import { TodoContext } from "../../context/TodoContext";
 
 interface InputProps {
-  // todo: string;
-  // setTodo: (value: string) => void;
   handleAddEdit: () => void;
-  // isEdit: boolean;
-  // todos: Todo[];
 }
 
-const Input: React.FC<InputProps> = ({
-  // todo,
-  // setTodo,
-  handleAddEdit,
-  // isEdit,
-  // todos,
-}) => {
+const Input: React.FC<InputProps> = ({ handleAddEdit }) => {
   const todoContext = useContext<AppState>(TodoContext);
   const { todo, setTodo, todos, isEdit, isSpin } = todoContext;
   const [error, setError] = useState<string>("");
@@ -39,16 +29,6 @@ const Input: React.FC<InputProps> = ({
     }
     setError("");
     return true;
-  };
-
-  const getButtonText = () => {
-    if (isSpin) {
-      return <div className={styles.loader} />;
-    } else if (isEdit) {
-      return "Edit";
-    } else {
-      return "Add";
-    }
   };
 
   const handleAddEditClick = () => {
