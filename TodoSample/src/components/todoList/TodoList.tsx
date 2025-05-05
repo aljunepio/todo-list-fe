@@ -12,7 +12,7 @@ interface TodoListProps {
 
 const TodoList: React.FC<TodoListProps> = ({ handleEdit }) => {
   const todoContext = useContext<AppState>(TodoContext);
-  const { todos, setTodos, setModalDatas } = todoContext;
+  const { todos, setTodos, setModalDatas, setIsSpin } = todoContext;
   const handleDeleteClick = (item: Todo) => {
     setModalDatas({
       showModal: modalType.delete,
@@ -23,9 +23,10 @@ const TodoList: React.FC<TodoListProps> = ({ handleEdit }) => {
 
   const handleCheckboxChange = async (selectedItem: Todo) => {
     const updateItem = todos.find((item: Todo) => item.id === selectedItem.id);
+    setIsSpin(true);
     if (!updateItem) return console.error("Task not found");
     const updatedTodo = { ...updateItem, completed: !updateItem?.completed };
-    await updateTask(updateItem.id, updatedTodo, () => {});
+    await updateTask(updateItem.id, updatedTodo);
     setTodos(
       todos.map((todo: Todo) =>
         todo.id === selectedItem.id
@@ -33,6 +34,7 @@ const TodoList: React.FC<TodoListProps> = ({ handleEdit }) => {
           : todo
       )
     );
+    setIsSpin(false);
   };
 
   return (

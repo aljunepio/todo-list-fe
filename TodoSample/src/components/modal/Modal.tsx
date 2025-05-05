@@ -24,10 +24,13 @@ const Modal: React.FC<ModalProps> = ({
 
   const deleteAllTasks = async () => {
     try {
-      await deleteAllTask(setIsSpin);
+      setIsSpin(true);
+      await deleteAllTask();
       setTodos([]);
     } catch (error) {
       console.error("Error handling delete task:", error);
+    } finally {
+      setIsSpin(false);
     }
   };
 
