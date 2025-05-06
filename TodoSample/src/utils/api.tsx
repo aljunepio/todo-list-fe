@@ -3,11 +3,9 @@ import { Todo } from "../interfaces/types";
 
 const API_URL = "https://todobackend-5fod.onrender.com/tasks";
 
-export const fetchTasks = async (setIsSpin: (value: boolean) => void) => {
+export const fetchTasks = async () => {
   try {
-    setIsSpin(true);
     const response = await axios.get(API_URL);
-    setIsSpin(false);
     return response.data;
   } catch (error) {
     console.error("Error fetching tasks:", error);
@@ -15,14 +13,9 @@ export const fetchTasks = async (setIsSpin: (value: boolean) => void) => {
   }
 };
 
-export const addTask = async (
-  task: Todo,
-  setIsSpin: (value: boolean) => void
-) => {
+export const addTask = async (task: Todo) => {
   try {
-    setIsSpin(true);
     const response = await axios.post(API_URL, task);
-    setIsSpin(false);
     return response.data;
   } catch (error) {
     console.error("Error adding task:", error);
@@ -30,15 +23,9 @@ export const addTask = async (
   }
 };
 
-export const updateTask = async (
-  id: number,
-  updatedTask: Todo,
-  setIsSpin: (value: boolean) => void
-) => {
+export const updateTask = async (id: number, updatedTask: Todo) => {
   try {
-    setIsSpin(true);
     const response = await axios.put(`${API_URL}/${id}`, updatedTask);
-    setIsSpin(false);
     return response.data;
   } catch (error) {
     console.error("Error updating task:", error);
@@ -46,14 +33,9 @@ export const updateTask = async (
   }
 };
 
-export const deleteTask = async (
-  id: number,
-  setIsSpin: (value: boolean) => void
-) => {
+export const deleteTask = async (id: number) => {
   try {
-    setIsSpin(true);
     const response = await axios.delete(`${API_URL}/${id}`);
-    setIsSpin(false);
     return response.data;
   } catch (error) {
     console.error("Error deleting task:", error);
@@ -61,11 +43,9 @@ export const deleteTask = async (
   }
 };
 
-export const deleteAllTask = async (setIsSpin: (value: boolean) => void) => {
+export const deleteAllTask = async () => {
   try {
-    setIsSpin(true);
     const response = await axios.delete(API_URL);
-    setIsSpin(false);
     return response.data;
   } catch (error) {
     console.error("Error deleting task:", error);

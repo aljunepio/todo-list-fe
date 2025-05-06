@@ -24,7 +24,7 @@ function App() {
     modalDatas,
     setModalDatas,
     isLoading,
-    setIsLoading,
+    // setIsLoading,
     errorMessage,
     setErrorMessage,
     isSpin,
@@ -39,6 +39,7 @@ function App() {
 
   const handleAddEdit = async () => {
     try {
+      setIsSpin(true);
       if (isEdit) {
         const editItem = todos.find((item: Todo) => item.id === selectedId);
         if (!editItem) {
@@ -46,7 +47,7 @@ function App() {
           return;
         }
         const updatedTodo = { ...editItem, title: todo };
-        await updateTask(editItem.id, updatedTodo, setIsSpin);
+        await updateTask(editItem.id, updatedTodo);
         setTodos(
           todos.map((item: Todo) =>
             item.id === updatedTodo.id ? updatedTodo : item
@@ -54,22 +55,27 @@ function App() {
         );
       } else {
         const newTodo = { id: Date.now(), title: todo, completed: false };
-        const response = await addTask(newTodo, setIsSpin);
+        const response = await addTask(newTodo);
         setTodos([...todos, response]);
       }
       setTodo("");
       setIsEdit(false);
     } catch (error) {
       console.error("Error handling add/edit task:", error);
+    } finally {
+      setIsSpin(false);
     }
   };
 
   const handleDelete = async (id: number) => {
     try {
-      await deleteTask(id, setIsSpin);
+      setIsSpin(true);
+      await deleteTask(id);
       setTodos(todos.filter((item: Todo) => item.id !== id));
     } catch (error) {
       console.error("Error handling delete task:", error);
+    } finally {
+      setIsSpin(false);
     }
   };
 
@@ -90,13 +96,13 @@ function App() {
   useEffect(() => {
     const loadTasks = async () => {
       try {
-        setIsLoading(true);
-        const tasks = await fetchTasks(setIsSpin);
+        setIsSpin(true);
+        const tasks = await fetchTasks();
         setTodos(tasks);
-        setIsLoading(false);
       } catch (error) {
         setErrorMessage(`Error loading tasks: ${error}`);
-        setIsLoading(false);
+      } finally {
+        setIsSpin(false);
       }
     };
     loadTasks();
@@ -116,7 +122,7 @@ function App() {
             selectedId: 0,
           })
         }
-        disabled={isEdit}
+        disabled={isEdit || !todos.length}
       >
         Delete all
       </button>
