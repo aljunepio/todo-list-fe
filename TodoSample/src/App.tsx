@@ -122,7 +122,7 @@ function App() {
             selectedId: 0,
           })
         }
-        disabled={isEdit}
+        disabled={isEdit || !todos.length}
       >
         Delete all
       </button>
