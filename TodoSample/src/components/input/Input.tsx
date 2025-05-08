@@ -49,7 +49,9 @@ const Input: React.FC<InputProps> = ({ handleAddEdit }) => {
         <button onClick={handleAddEditClick} disabled={isSpin}>
           {isEdit ? "Edit" : "Add"}
         </button>
-        <button onClick={() => setTodo("")}>Clear</button>
+        <button onClick={() => setTodo("")} disabled={!todo}>
+          Clear
+        </button>
       </div>
     </div>
   );
