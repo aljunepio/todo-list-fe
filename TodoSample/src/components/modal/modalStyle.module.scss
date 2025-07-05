@@ -1,45 +1,169 @@
 @import "../../styles/variables";
+@import "../../styles/mixins";
+@import "../../styles/animations";
 
 .modalContainer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  @include flex-center;
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: $opacity5;
+  background-color: $opacity-50;
+  backdrop-filter: blur(4px);
+  z-index: $z-modal-backdrop;
+  animation: modalBackdropIn 0.3s ease-out;
+  
   .modal {
-    max-width: 30%;
-    background: $white;
-    padding: 20px;
-    border-radius: 8px;
+    @include card-elevated;
+    max-width: 95%;
+    width: 100%;
+    max-height: 90vh;
+    padding: $spacing-6;
     text-align: center;
-    box-shadow: 0px 4px 6px $opacity1;
+    position: relative;
+    animation: modalContentIn 0.3s ease-out;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    
+    @include responsive(sm) {
+      max-width: 90%;
+      width: 400px;
+      padding: $spacing-8;
+    }
+    
+    @include responsive(md) {
+      max-width: 600px;
+    }
+    
+    .modalHeader {
+      margin-bottom: $spacing-4;
+      
+      @include responsive(sm) {
+        margin-bottom: $spacing-6;
+      }
+      
+      .modalIcon {
+        font-size: 2.5rem;
+        margin-bottom: $spacing-3;
+        display: block;
+        
+        @include responsive(sm) {
+          font-size: 3rem;
+          margin-bottom: $spacing-4;
+        }
+        
+        &.warning {
+          color: $warning;
+        }
+        
+        &.danger {
+          color: $danger;
+        }
+        
+        &.info {
+          color: $info;
+        }
+      }
+      
+      .modalTitle {
+        @include heading-3;
+        margin-bottom: $spacing-2;
+        color: $text-primary;
+        
+        @include responsive(sm) {
+          @include heading-2;
+        }
+      }
+    }
+    
     .modalMessage {
+      @include body-text;
       overflow-wrap: break-word;
+      line-height: $line-height-relaxed;
+      margin-bottom: $spacing-4;
+      color: $text-secondary;
+      
+      @include responsive(sm) {
+        margin-bottom: $spacing-6;
+      }
     }
+    
     .buttons {
-      display: flex;
-      justify-content: space-around;
-      margin-top: 20px;
+      @include flex-column;
+      gap: $spacing-3;
+      width: 100%;
+      
+      @include responsive(sm) {
+        @include flex-center;
+        flex-direction: row;
+        gap: $spacing-4;
+        flex-wrap: wrap;
+        width: auto;
+      }
+      
       button {
-        padding: 10px 20px;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-      }
-
-      button:first-of-type {
-        background-color: $primaryRed;
-        color: $white;
-      }
-
-      button:last-of-type {
-        background-color: $btncolor;
-        color: $black;
+        @include button-base;
+        min-width: 100%;
+        min-height: 44px; // Touch target size
+        padding: $spacing-3 $spacing-4;
+        font-size: $font-size-base;
+        font-weight: $font-weight-medium;
+        
+        @include responsive(sm) {
+          min-width: 120px;
+          padding: $spacing-3 $spacing-6;
+        }
+        
+        &.confirm {
+          @include button-danger;
+        }
+        
+        &.cancel {
+          @include button-secondary;
+        }
+        
+        &.success {
+          @include button-success;
+        }
+        
+        &:hover {
+          transform: translateY(-1px);
+          
+          @media (max-width: $breakpoint-sm) {
+            transform: none; // Disable hover effects on mobile
+          }
+        }
+        
+        &:active {
+          transform: translateY(0);
+        }
       }
     }
+  }
+}
+
+// Modal close button
+.modalClose {
+  position: absolute;
+  top: $spacing-4;
+  right: $spacing-4;
+  background: none;
+  border: none;
+  font-size: $font-size-xl;
+  color: $text-muted;
+  cursor: pointer;
+  padding: $spacing-1;
+  border-radius: $radius-full;
+  transition: all $transition-fast;
+  
+  &:hover {
+    background-color: $gray-100;
+    color: $text-primary;
+  }
+  
+  &:focus {
+    outline: 2px solid $primary;
+    outline-offset: 2px;
   }
 }

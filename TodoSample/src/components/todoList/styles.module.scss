@@ -1,42 +1,176 @@
 @import "../../styles/variables";
+@import "../../styles/mixins";
+@import "../../styles/animations";
 
 .todoList {
   list-style: none;
   padding: 0;
-  height: 70%;
-  overflow: auto;
-
+  margin: 0;
+  @include scrollbar;
+  
   li {
-    padding: 6px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid $listLineColor;
-    .todoListTitle {
-      width: 56%;
-      overflow-wrap: break-word;
+    @include flex-column;
+    padding: $spacing-3;
+    margin-bottom: $spacing-2;
+    background-color: $white;
+    border: 1px solid $border-light;
+    border-radius: $radius-lg;
+    transition: all $transition-fast;
+    animation: listItemIn 0.3s ease-out;
+    gap: $spacing-3;
+    
+    @include responsive(sm) {
+      @include flex-between;
+      flex-direction: row;
+      padding: $spacing-4;
+      gap: $spacing-2;
     }
-    .completed {
-      color: $grayColor;
-      text-decoration: line-through;
+    
+    &:hover {
+      border-color: $primary-light;
+      box-shadow: 0 2px 8px rgba($primary, 0.1);
+      transform: translateY(-1px);
+      
+      @media (max-width: $breakpoint-sm) {
+        transform: none; // Disable hover effects on mobile
+      }
+    }
+    
+    &:last-child {
+      margin-bottom: 0;
+    }
+    
+    .todoContent {
+      @include flex-center;
+      gap: $spacing-3;
+      flex: 1;
+      min-width: 0; // Prevents flex item from overflowing
+      
+      .checkbox {
+        @include flex-center;
+        width: 20px;
+        height: 20px;
+        border: 2px solid $border-medium;
+        border-radius: $radius-sm;
+        background-color: $white;
+        cursor: pointer;
+        transition: all $transition-fast;
+        flex-shrink: 0;
+        
+        &:hover {
+          border-color: $primary;
+          background-color: rgba($primary, 0.1);
+        }
+        
+        &.checked {
+          background-color: $success;
+          border-color: $success;
+          
+          &::after {
+            content: "✓";
+            color: $white;
+            font-size: $font-size-sm;
+            font-weight: $font-weight-bold;
+            animation: success 0.2s ease-out;
+          }
+        }
+      }
+      
+      .todoListTitle {
+        @include body-text;
+        flex: 1;
+        word-wrap: break-word;
+        line-height: $line-height-relaxed;
+        transition: all $transition-fast;
+        
+        &.completed {
+          color: $text-muted;
+          text-decoration: line-through;
+          text-decoration-color: $success;
+          text-decoration-thickness: 2px;
+        }
+      }
+    }
+    
+    .actions {
+      @include flex-center;
+      gap: $spacing-2;
+      flex-shrink: 0;
+      width: 100%;
+      
+      @include responsive(sm) {
+        width: auto;
+        flex-direction: row;
+      }
+      
+      button {
+        @include button-base;
+        padding: $spacing-2 $spacing-3;
+        font-size: $font-size-xs;
+        min-width: 60px;
+        min-height: 44px; // Touch target size
+        flex: 1;
+        
+        @include responsive(sm) {
+          flex: none;
+        }
+        
+        &.edit {
+          @include button-secondary;
+        }
+        
+        &.delete {
+          @include button-danger;
+        }
+        
+        &:hover {
+          transform: translateY(-1px);
+          
+          @media (max-width: $breakpoint-sm) {
+            transform: none; // Disable hover effects on mobile
+          }
+        }
+        
+        &:active {
+          transform: translateY(0);
+        }
+      }
     }
   }
-
-  li:last-child {
-    border-bottom: none;
+  
+  // Empty state
+  &:empty {
+    @include flex-column-center;
+    min-height: 200px;
+    color: $text-muted;
+    font-style: italic;
+    
+    &::before {
+      content: "📝";
+      font-size: 3rem;
+      margin-bottom: $spacing-4;
+      opacity: 0.5;
+    }
+    
+    &::after {
+      content: "No tasks yet. Add your first task above!";
+      @include body-text;
+      text-align: center;
+    }
   }
+}
 
-  button {
-    border: none;
-    background: $primaryRed;
-    color: $white;
-    padding: 5px 10px;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-left: 5px;
-  }
+// Loading state
+.todoList.loading {
+  opacity: 0.6;
+  pointer-events: none;
+}
 
-  button:hover {
-    background: $primaryRedHover;
+// Animation for list items
+.todoList li {
+  animation: listItemIn 0.3s ease-out;
+  
+  &.removing {
+    animation: listItemOut 0.3s ease-out forwards;
   }
 }

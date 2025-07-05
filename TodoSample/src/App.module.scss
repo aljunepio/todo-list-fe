@@ -1,45 +1,209 @@
 @import "./styles/variables";
+@import "./styles/mixins";
+@import "./styles/animations";
 
+// Global styles
 body {
-  font-family: Arial, sans-serif;
-  background-color: $whiteBG;
+  font-family: $font-family-sans;
+  background: linear-gradient(135deg, $primary-light 0%, $primary 100%);
   margin: 0;
-  padding: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+  padding: $spacing-2;
+  min-height: 100vh;
+  @include flex-center;
+  color: $text-primary;
+  line-height: $line-height-normal;
+  overflow-x: hidden; // Prevent horizontal scroll on mobile
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-tap-highlight-color: transparent; // Remove tap highlight on mobile
+  
+  @include responsive(sm) {
+    padding: $spacing-4;
+  }
+}
+
+// Mobile-specific global styles
+* {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+// Allow text selection for input fields and content
+input, textarea, [contenteditable="true"], .todoListTitle {
+  -webkit-user-select: text;
+  -khtml-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
 }
 
 .container {
-  background: $white;
-  box-shadow: 0 0 10px $opacity1;
-  padding: 20px;
-  border-radius: 8px;
-  width: 330px;
-  height: 600px;
+  @include card-elevated;
+  @include flex-column;
+  width: 100%;
+  max-width: 100%;
+  min-height: 100vh;
+  padding: $spacing-4;
+  position: relative;
+  animation: slideUp 0.6s ease-out;
+  margin: 0;
+  
+  @include responsive(sm) {
+    max-width: 480px;
+    min-height: 600px;
+    padding: $spacing-6;
+    margin: $spacing-2;
+  }
+  
+  @include responsive(md) {
+    max-width: 600px;
+    padding: $spacing-8;
+    margin: $spacing-4;
+  }
+  
+  @include responsive(lg) {
+    max-width: 700px;
+    padding: $spacing-10;
+  }
 
   .todoContainer {
-    height: 72%;
+    flex: 1;
+    min-height: 200px;
+    margin: $spacing-4 0;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch; // Smooth scrolling on iOS
+    
+    @include responsive(sm) {
+      min-height: 300px;
+      margin: $spacing-6 0;
+    }
+    
+    // Empty state styling
+    &:empty::before {
+      content: "No tasks yet. Add your first task above!";
+      display: block;
+      text-align: center;
+      padding: $spacing-4;
+      color: $text-muted;
+      font-style: italic;
+      @include body-text;
+      
+      @include responsive(sm) {
+        padding: $spacing-8;
+      }
+    }
   }
 
   .title {
-    font-size: 24px;
+    @include heading-3;
+    text-align: center;
+    margin-bottom: $spacing-4;
+    background: linear-gradient(135deg, $primary 0%, $primary-dark 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    position: relative;
+    
+    @include responsive(sm) {
+      @include heading-2;
+      margin-bottom: $spacing-6;
+    }
+    
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -$spacing-1;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 40px;
+      height: 2px;
+      background: linear-gradient(90deg, $primary 0%, $primary-light 100%);
+      border-radius: $radius-full;
+      
+      @include responsive(sm) {
+        bottom: -$spacing-2;
+        width: 60px;
+        height: 3px;
+      }
+    }
   }
 
   .deleteAll {
-    padding: 10px 20px;
-    border: none;
-    background: $primaryRed;
-    color: $white;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-top: 20px;
-    display: block;
+    @include button-danger;
+    margin-top: $spacing-4;
     width: 100%;
+    padding: $spacing-3 $spacing-4;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    min-height: 44px; // Touch target size
+    
+    @include responsive(sm) {
+      margin-top: $spacing-6;
+      padding: $spacing-3 $spacing-6;
+      font-size: $font-size-base;
+    }
+    
+    &:disabled {
+      background-color: $gray-300;
+      color: $text-muted;
+      cursor: not-allowed;
+      
+      &:hover {
+        background-color: $gray-300;
+        transform: none;
+        box-shadow: none;
+      }
+    }
   }
+}
 
-  .deleteAll:hover {
-    background: $primaryRedHover;
+// Mobile-specific optimizations
+@media (max-width: $breakpoint-sm) {
+  // Prevent zoom on input focus on iOS
+  input, select, textarea {
+    font-size: 16px;
+  }
+  
+  // Improve touch targets
+  button, [role="button"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  // Optimize for mobile viewport
+  .container {
+    border-radius: 0;
+    box-shadow: none;
+    margin: 0;
+    padding: $spacing-3;
+    
+    &:hover {
+      box-shadow: none;
+    }
+  }
+}
+
+// Landscape orientation adjustments
+@media (max-width: $breakpoint-sm) and (orientation: landscape) {
+  body {
+    padding: $spacing-1;
+  }
+  
+  .container {
+    min-height: 100vh;
+    padding: $spacing-2;
+    
+    .title {
+      margin-bottom: $spacing-2;
+    }
+    
+    .todoContainer {
+      margin: $spacing-2 0;
+    }
   }
 }

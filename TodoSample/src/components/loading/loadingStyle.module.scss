@@ -1,31 +1,88 @@
 @import "../../styles/variables";
-
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
+@import "../../styles/mixins";
+@import "../../styles/animations";
 
 .loadingContainer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  @include flex-center;
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: $opacity5;
+  background-color: $opacity-50;
+  backdrop-filter: blur(4px);
+  z-index: $z-modal;
+  animation: fadeIn 0.3s ease-out;
   
   .loader {
-    border: 10px solid #f3f3f3;
-    border-top: 10px solid #3498db;
-    border-radius: 50%;
-    width: 30px;
-    height: 30px;
-    animation: spin 2s linear infinite;
+    @include flex-center;
+    flex-direction: column;
+    gap: $spacing-4;
+    
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid rgba($primary, 0.2);
+      border-top: 3px solid $primary;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    
+    .loadingText {
+      @include body-text;
+      color: $text-primary;
+      font-weight: $font-weight-medium;
+      animation: pulse 2s ease-in-out infinite;
+    }
+  }
+  
+  // Alternative loading styles
+  &.dots {
+    .loader {
+      .spinner {
+        display: none;
+      }
+      
+      .loadingText {
+        display: flex;
+        gap: $spacing-1;
+        
+        &::after {
+          content: "";
+          width: 8px;
+          height: 8px;
+          background-color: $primary;
+          border-radius: 50%;
+          animation: loadingDots 1.4s ease-in-out infinite both;
+        }
+        
+        &::before {
+          content: "";
+          width: 8px;
+          height: 8px;
+          background-color: $primary;
+          border-radius: 50%;
+          animation: loadingDots 1.4s ease-in-out infinite both;
+          animation-delay: -0.32s;
+        }
+      }
+    }
+  }
+  
+  &.minimal {
+    background-color: transparent;
+    backdrop-filter: none;
+    
+    .loader {
+      .loadingText {
+        display: none;
+      }
+      
+      .spinner {
+        width: 20px;
+        height: 20px;
+        border-width: 2px;
+      }
+    }
   }
 }
