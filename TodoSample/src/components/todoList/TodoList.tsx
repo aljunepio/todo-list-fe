@@ -5,6 +5,7 @@ import { AppState, Todo } from "../../interfaces/types";
 import { modalType } from "../../enums/modalEnums";
 import { TodoContext } from "../../context/TodoContext";
 import { updateTask } from "../../utils/api";
+import EmptyState from "../emptyState/EmptyState";
 
 interface TodoListProps {
   handleEdit: (index: Todo) => void;
@@ -12,7 +13,7 @@ interface TodoListProps {
 
 const TodoList: React.FC<TodoListProps> = ({ handleEdit }) => {
   const todoContext = useContext<AppState>(TodoContext);
-  const { todos, setTodos, setModalDatas, setIsSpin } = todoContext;
+  const { todos, setTodos, setModalDatas, setIsSpin, isSpin, errorMessage } = todoContext;
   const handleDeleteClick = (item: Todo) => {
     setModalDatas({
       showModal: modalType.delete,
@@ -37,26 +38,56 @@ const TodoList: React.FC<TodoListProps> = ({ handleEdit }) => {
     setIsSpin(false);
   };
 
+  // Show empty state if there are no todos or if there's an error
+  if (todos.length === 0 || errorMessage) {
+    return (
+      <EmptyState 
+        errorMessage={errorMessage} 
+        isLoading={isSpin}
+      />
+    );
+  }
+
   return (
-    <ul className={styles.todoList}>
+    <ul className={`${styles.todoList} ${isSpin ? styles.loading : ''}`}>
       {todos.map((item: Todo) => (
         <li key={item.id}>
-          <input
-            type="checkbox"
-            checked={item.completed}
-            onChange={() => handleCheckboxChange(item)}
-          />
-          <span
-            className={cNames(
-              styles.todoListTitle,
-              item.completed ? styles.completed : null
-            )}
-          >
-            {item.title}
-          </span>
-          <div>
-            <button onClick={() => handleDeleteClick(item)}>Delete</button>
-            <button onClick={() => handleEdit(item)}>Edit</button>
+          <div className={styles.todoContent}>
+            <div
+              className={cNames(
+                styles.checkbox,
+                item.completed ? styles.checked : null
+              )}
+              onClick={() => handleCheckboxChange(item)}
+              role="checkbox"
+              aria-checked={item.completed}
+              tabIndex={0}
+              onKeyPress={(e) => e.key === 'Enter' && handleCheckboxChange(item)}
+            />
+            <span
+              className={cNames(
+                styles.todoListTitle,
+                item.completed ? styles.completed : null
+              )}
+            >
+              {item.title}
+            </span>
+          </div>
+          <div className={styles.actions}>
+            <button 
+              className={styles.edit}
+              onClick={() => handleEdit(item)}
+              aria-label={`Edit task: ${item.title}`}
+            >
+              Edit
+            </button>
+            <button 
+              className={styles.delete}
+              onClick={() => handleDeleteClick(item)}
+              aria-label={`Delete task: ${item.title}`}
+            >
+              Delete
+            </button>
           </div>
         </li>
       ))}

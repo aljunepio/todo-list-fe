@@ -23,9 +23,9 @@ function App() {
     setSelectedId,
     modalDatas,
     setModalDatas,
-    isLoading,
+    // isLoading,
     // setIsLoading,
-    errorMessage,
+    // errorMessage,
     setErrorMessage,
     isSpin,
     setIsSpin,
@@ -79,19 +79,19 @@ function App() {
     }
   };
 
-  const getTodosList = () => {
-    if (!todos.length) {
-      return (
-        <div className={styles.todoContainer}>No task to be displayed</div>
-      );
-    } else if (isLoading) {
-      return <div className={styles.todoContainer}>Loading...</div>;
-    } else if (errorMessage) {
-      return errorMessage;
-    } else {
-      return <TodoList handleEdit={handleEdit} />;
-    }
-  };
+  // const getTodosList = () => {
+  //   if (!todos.length) {
+  //     return (
+  //       <div className={styles.todoContainer}>No task to be displayed</div>
+  //     );
+  //   } else if (isLoading) {
+  //     return <div className={styles.todoContainer}>Loading...</div>;
+  //   } else if (errorMessage) {
+  //     return errorMessage;
+  //   } else {
+  //     return <TodoList handleEdit={handleEdit} />;
+  //   }
+  // };
 
   useEffect(() => {
     const loadTasks = async () => {
@@ -112,7 +112,8 @@ function App() {
     <div className={styles.container}>
       <div className={styles.title}>Todo List</div>
       <Input handleAddEdit={handleAddEdit} />
-      {getTodosList()}
+      {/* {getTodosList()} */}
+      <TodoList handleEdit={handleEdit} />
       <button
         className={styles.deleteAll}
         onClick={() =>

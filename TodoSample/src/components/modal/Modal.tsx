@@ -42,18 +42,60 @@ const Modal: React.FC<ModalProps> = ({
     }
     setModalDatas({ ...modalDatas, showModal: modalType.hide });
   };
+  const getModalIcon = () => {
+    if (showModal === modalType.deleteAll) return "🗑️";
+    if (showModal === modalType.delete) return "⚠️";
+    return "ℹ️";
+  };
+
+  const getModalTitle = () => {
+    if (showModal === modalType.deleteAll) return "Delete All Tasks";
+    if (showModal === modalType.delete) return "Delete Task";
+    return "Confirm Action";
+  };
+
   return (
     <div className={styles.modalContainer}>
       <div className={styles.modal}>
-        <div className={styles.modalMessage}>{modalMessage}</div>
+        <button
+          className={styles.modalClose}
+          onClick={() =>
+            setModalDatas({ ...modalDatas, showModal: modalType.hide })
+          }
+          aria-label="Close modal"
+        >
+          ×
+        </button>
+        
+        <div className={styles.modalHeader}>
+          <span className={styles.modalIcon}>
+            {getModalIcon()}
+          </span>
+          <h2 className={styles.modalTitle}>
+            {getModalTitle()}
+          </h2>
+        </div>
+        
+        <div className={styles.modalMessage}>
+          {modalMessage}
+        </div>
+        
         <div className={styles.buttons}>
-          <button onClick={onConfirm}>Yes</button>
+          <button 
+            className={styles.confirm}
+            onClick={onConfirm}
+            aria-label="Confirm action"
+          >
+            Yes, Continue
+          </button>
           <button
+            className={styles.cancel}
             onClick={() =>
               setModalDatas({ ...modalDatas, showModal: modalType.hide })
             }
+            aria-label="Cancel action"
           >
-            No
+            Cancel
           </button>
         </div>
       </div>

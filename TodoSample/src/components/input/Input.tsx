@@ -38,20 +38,38 @@ const Input: React.FC<InputProps> = ({ handleAddEdit }) => {
   };
 
   return (
-    <div className={styles.inputContainer}>
+    <div className={`${styles.inputContainer} ${isSpin ? styles.loading : ''}`}>
       {error && <p className={styles.error}>{error}</p>}
       <div className={styles.inputGroup}>
         <input
           type="text"
           value={todo}
           onChange={(e) => setTodo(e.target.value)}
+          placeholder="Enter your task here..."
+          aria-label="Task input"
+          onKeyPress={(e) => e.key === 'Enter' && handleAddEditClick()}
         />
-        <button onClick={handleAddEditClick} disabled={isSpin}>
-          {isEdit ? "Edit" : "Add"}
-        </button>
-        <button onClick={() => setTodo("")} disabled={!todo}>
-          Clear
-        </button>
+        <div className={styles.buttonGroup}>
+          <button 
+            className={styles.primary}
+            onClick={handleAddEditClick} 
+            disabled={isSpin}
+            aria-label={isEdit ? "Edit task" : "Add task"}
+          >
+            <div className={styles.buttonContent}>
+              {isSpin && <div className={styles.loader}></div>}
+              {isEdit ? "Edit" : "Add"}
+            </div>
+          </button>
+          <button 
+            className={styles.secondary}
+            onClick={() => setTodo("")} 
+            disabled={!todo || isSpin}
+            aria-label="Clear input"
+          >
+            Clear
+          </button>
+        </div>
       </div>
     </div>
   );
