@@ -5,6 +5,7 @@ import { AppState, Todo } from "../../interfaces/types";
 import { modalType } from "../../enums/modalEnums";
 import { TodoContext } from "../../context/TodoContext";
 import { updateTask } from "../../utils/api";
+import EmptyState from "../emptyState/EmptyState";
 
 interface TodoListProps {
   handleEdit: (index: Todo) => void;
@@ -12,7 +13,7 @@ interface TodoListProps {
 
 const TodoList: React.FC<TodoListProps> = ({ handleEdit }) => {
   const todoContext = useContext<AppState>(TodoContext);
-  const { todos, setTodos, setModalDatas, setIsSpin, isSpin } = todoContext;
+  const { todos, setTodos, setModalDatas, setIsSpin, isSpin, errorMessage } = todoContext;
   const handleDeleteClick = (item: Todo) => {
     setModalDatas({
       showModal: modalType.delete,
@@ -36,6 +37,16 @@ const TodoList: React.FC<TodoListProps> = ({ handleEdit }) => {
     );
     setIsSpin(false);
   };
+
+  // Show empty state if there are no todos or if there's an error
+  if (todos.length === 0 || errorMessage) {
+    return (
+      <EmptyState 
+        errorMessage={errorMessage} 
+        isLoading={isSpin}
+      />
+    );
+  }
 
   return (
     <ul className={`${styles.todoList} ${isSpin ? styles.loading : ''}`}>
