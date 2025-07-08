@@ -7,6 +7,8 @@
   padding: 0;
   margin: 0;
   @include scrollbar;
+  max-height: 65vh;
+  overflow-y: auto;
   
   li {
     @include flex-column;
@@ -48,9 +50,9 @@
       
       .checkbox {
         @include flex-center;
-        width: 20px;
-        height: 20px;
-        border: 2px solid $border-medium;
+        width: 1.25rem;
+        height: 1.25rem;
+        border: 0.125rem solid $border-medium;
         border-radius: $radius-sm;
         background-color: $white;
         cursor: pointer;
@@ -87,7 +89,7 @@
           color: $text-muted;
           text-decoration: line-through;
           text-decoration-color: $success;
-          text-decoration-thickness: 2px;
+          text-decoration-thickness: 0.125rem;
         }
       }
     }
@@ -107,8 +109,8 @@
         @include button-base;
         padding: $spacing-2 $spacing-3;
         font-size: $font-size-xs;
-        min-width: 60px;
-        min-height: 44px; // Touch target size
+        min-width: 3.75rem;
+        min-height: 2.75rem;
         flex: 1;
         
         @include responsive(sm) {
@@ -141,7 +143,7 @@
   // Empty state
   &:empty {
     @include flex-column-center;
-    min-height: 200px;
+    min-height: 12.5rem;
     color: $text-muted;
     font-style: italic;
     

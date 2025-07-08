@@ -35,10 +35,10 @@
     }
 
     input {
-      // @include input-base;
+      @include input-base;
       flex: 1;
       min-width: 0; // Prevents flex item from overflowing
-      min-height: 44px; // Touch target size
+      min-height: 2.75rem; // 44px
       font-size: $font-size-base; // Prevent zoom on iOS
       
       &:focus {
@@ -53,8 +53,9 @@
       
       // Mobile-specific input styles
       @media (max-width: $breakpoint-sm) {
-        font-size: 16px; // Prevent zoom on iOS
+        font-size: 1rem; // 16px
         padding: $spacing-3 $spacing-4;
+        width: unset;
       }
     }
 
@@ -70,18 +71,18 @@
       
       button {
         flex: 1;
-        min-height: 44px; // Touch target size
+        min-height: 2.75rem; // 44px
         
         @include responsive(sm) {
           flex: none;
-          min-width: 80px;
+          min-width: 5rem; // 80px
         }
       }
     }
 
     button {
       @include button-base;
-      min-width: 80px;
+      min-width: 5rem; // 80px
       position: relative;
       overflow: hidden;
       
@@ -104,10 +105,10 @@
       }
       
       .loader {
-        width: 16px;
-        height: 16px;
-        border: 2px solid rgba($white, 0.3);
-        border-top: 2px solid $white;
+        width: 1rem; // 16px
+        height: 1rem; // 16px
+        border: 0.125rem solid rgba($white, 0.3); // 2px
+        border-top: 0.125rem solid $white; // 2px
         border-radius: 50%;
         animation: spin 1s linear infinite;
         margin-right: $spacing-1;
