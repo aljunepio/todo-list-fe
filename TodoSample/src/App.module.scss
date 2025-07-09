@@ -8,7 +8,7 @@ body {
   background: linear-gradient(135deg, $primary-light 0%, $primary 100%);
   margin: 0;
   padding: $spacing-2;
-  min-height: 100vh;
+  min-height: 96vh;
   @include flex-center;
   color: $text-primary;
   line-height: $line-height-normal;
@@ -45,31 +45,30 @@ input, textarea, [contenteditable="true"], .todoListTitle {
 .container {
   @include card-elevated;
   @include flex-column;
-  width: 100%;
+  // width: 100%;
   max-width: 100%;
-  min-height: 100vh;
+  min-height: 90vh;
   padding: $spacing-4;
   position: relative;
-  animation: slideUp 0.6s ease-out;
   margin: 0;
   
-  @include responsive(sm) {
-    max-width: 480px;
-    min-height: 600px;
-    padding: $spacing-6;
-    margin: $spacing-2;
-  }
+  // @include responsive(sm) {
+  //   max-width: 480px;
+  //   // min-height: 600px;
+  //   padding: $spacing-6;
+  //   margin: $spacing-2;
+  // }
   
-  @include responsive(md) {
-    max-width: 600px;
-    padding: $spacing-8;
-    margin: $spacing-4;
-  }
+  // @include responsive(md) {
+  //   max-width: 600px;
+  //   padding: $spacing-8;
+  //   margin: $spacing-4;
+  // }
   
-  @include responsive(lg) {
-    max-width: 700px;
-    padding: $spacing-10;
-  }
+  // @include responsive(lg) {
+  //   max-width: 700px;
+  //   padding: 2.5rem;
+  // }
 
   .todoContainer {
     flex: 1;
@@ -163,47 +162,47 @@ input, textarea, [contenteditable="true"], .todoListTitle {
 }
 
 // Mobile-specific optimizations
-@media (max-width: $breakpoint-sm) {
-  // Prevent zoom on input focus on iOS
-  input, select, textarea {
-    font-size: 16px;
-  }
+// @media (max-width: $breakpoint-sm) {
+//   // Prevent zoom on input focus on iOS
+//   input, select, textarea {
+//     font-size: 16px;
+//   }
   
-  // Improve touch targets
-  button, [role="button"] {
-    min-height: 44px;
-    min-width: 44px;
-  }
+//   // Improve touch targets
+//   button, [role="button"] {
+//     min-height: 44px;
+//     min-width: 44px;
+//   }
   
-  // Optimize for mobile viewport
-  .container {
-    border-radius: 0;
-    box-shadow: none;
-    margin: 0;
-    padding: $spacing-3;
+//   // Optimize for mobile viewport
+//   .container {
+//     border-radius: 0;
+//     box-shadow: none;
+//     margin: 0;
+//     padding: $spacing-3;
     
-    &:hover {
-      box-shadow: none;
-    }
-  }
-}
+//     &:hover {
+//       box-shadow: none;
+//     }
+//   }
+// }
 
-// Landscape orientation adjustments
-@media (max-width: $breakpoint-sm) and (orientation: landscape) {
-  body {
-    padding: $spacing-1;
-  }
+// // Landscape orientation adjustments
+// @media (max-width: $breakpoint-sm) and (orientation: landscape) {
+//   body {
+//     padding: $spacing-1;
+//   }
   
-  .container {
-    min-height: 100vh;
-    padding: $spacing-2;
+//   .container {
+//     min-height: 100vh;
+//     padding: $spacing-2;
     
-    .title {
-      margin-bottom: $spacing-2;
-    }
+//     .title {
+//       margin-bottom: $spacing-2;
+//     }
     
-    .todoContainer {
-      margin: $spacing-2 0;
-    }
-  }
-}
+//     .todoContainer {
+//       margin: $spacing-2 0;
+//     }
+//   }
+// }
